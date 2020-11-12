@@ -9,8 +9,10 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 import collections
 from os import walk
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-from mpl_toolkits.mplot3d import Axes3D
+
+
+
+
 
 # =============================================================================
 # Hilfefenster 
@@ -615,8 +617,6 @@ class SpeicherFenster(QWidget):
         self.show()
         
     def speichern(self):#schreibt ausgewählten Dateiname - und Pfad in Textfenster und auf die Variable self.ausgabename(zur späteren verwendung) 
-        
-        
         self.ausgabename = QFileDialog.getSaveFileName(self, 'Datei speichern', self.default_ausgabe )[0]
         self.textBrowser_2.clear()
         
