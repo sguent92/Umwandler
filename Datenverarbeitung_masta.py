@@ -1,4 +1,6 @@
 from __main__ import  *
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+from mpl_toolkits.mplot3d import Axes3D
 
 laenge = int(360/Wink_Aufl)#laenge eines Blocks
 breite = slice_zahl * zahn_zahl
@@ -64,11 +66,6 @@ Ft2_roh = 1/(N)/(Nr) * np.abs(np.fft.fft2(Ft2_daten))
 Ft2_zeile0 = np.reshape(Ft2_roh[0,:], (1,N))
 Ft2_spektrum = np.flipud(Ft2_roh[1:,:])
 Ft2 = (np.concatenate((Ft2_zeile0, Ft2_spektrum)))[:int(Nr//2),:60]
-
-
-
-
-
 
 r_end = 1
 r_aufl = r_end/Nr

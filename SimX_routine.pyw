@@ -1,7 +1,9 @@
 
 if __name__!= '__main__':
     from __main__ import *
+  
     
+
 import sys
 import pandas as pd
 import numpy as np
@@ -27,6 +29,7 @@ class AuswahlFenster(QWidget):
         
         self.Auswahl = QtWidgets.QSpinBox(self)# Sinbox mit der Anzahl der eingelesenen Datein (Lastpunkt) ausgewält wird
         self.Auswahl.setGeometry(QtCore.QRect(250,70,35,50))
+        self.Auswahl.setMinimum(3)
         
         self.Beschreibung =QtWidgets.QLabel(self)
         self.Beschreibung.setGeometry(QtCore.QRect(20,5,400,40))
@@ -481,7 +484,7 @@ class Fenster(QWidget):
         
     def speichern(self):#
 
-        self.ausgabename = QtWidgets.QFileDialog.getSaveFileName(self,)[0]
+        self.ausgabename = QtWidgets.QFileDialog.getSaveFileName(self,'Dateien speichern', 'Ausgabe_SimulationX/')[0]
         
         if '.' in self.ausgabename:
              ind = self.ausgabename.rfind('.')
@@ -604,12 +607,17 @@ else:
      
 #np.linspace(int(Lastpunkt_dict[1]),int(Lastpunkt_dict[len(Lastpunkt_dict)]) , int(N + 1) )
 
-y = np.array([Moment_gesamt_list])
+y = np.array([Moment_gesamt_list]).squeeze()
 x = np.array([Lastpunkt_dict[i] for i in range(0, len(Lastpunkt_dict))])
 
 intfunk = interpolate.interp1d(x,y,kind = 'quadratic', fill_value="extrapolate")
 
-xneu = np.arange(int( Lastpunkt_dict[0]), int(Lastpunkt_dict[len(Lastpunkt_dict) - 1]) , Aufl) 
+xneu = np.arange(int( Lastpunkt_dict[0]), int(Lastpunkt_dict[len(Lastpunkt_dict) - 1]) , Aufl)
+xneu = np.array(sorted(np.append(xneu, x)))
+xneu = np.unique(xneu)
+
+
+
 yneu =np.transpose(intfunk(xneu))
 yneu= np.append(yneu[0], yneu)
 xneu= np.append(0, xneu)

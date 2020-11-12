@@ -1,6 +1,6 @@
-from qtpy.QtWidgets import QWidget, QMainWindow, QPushButton, QLineEdit, QLabel, QTextBrowser, QApplication, QRadioButton, QCheckBox, QSpinBox, QMessageBox , QVBoxLayout, QPlainTextEdit, QFileDialog
+from qtpy.QtWidgets import QWidget,  QPushButton, QLineEdit, QLabel, QTextBrowser, QApplication,  QVBoxLayout, QPlainTextEdit, QFileDialog
 from qtpy import QtCore
-from qtpy.QtGui import QIcon, QPixmap, QIntValidator
+from qtpy.QtGui import QIcon, QPixmap
 import sys
 import pandas as pd
 from os import path
@@ -248,9 +248,9 @@ class Dropbox(QLineEdit):
             except TypeError:
                 A.findChild(QPlainTextEdit, zeile + str(spalte)).appendPlainText('-' )
             
-            A.weiter_gehts[int(zeile)] = True
-            if (False in A.weiter_gehts) == False:
-                A.weiter.setDisabled(False)
+            # A.weiter_gehts[int(zeile)] = True
+            # if (False in A.weiter_gehts) == False:
+            #     A.weiter.setDisabled(False)
                 
         
 # =============================================================================
@@ -431,15 +431,26 @@ class ArbeitsdatenFenster(QWidget):
 
                 self.eing.setAcceptDrops(False)
                 self.eing.setObjectName( str(zeile) + str(spalte))
+                self.eing.textChanged.connect(self.freigabe)
                 if spalte == 0:
                     self.eing.setGeometry(100 + 80 * spalte,125 + zeile * 120, 80,100)
                 elif spalte < 3:
                     self.eing.setGeometry(200 + 45 * (spalte-1),125 + zeile * 120, 40,100)
                 else:
                     self.eing.setGeometry(210 + 45 * (spalte-1),125 + zeile * 120, 40,100)
+                    self.eing.textChanged.connect(self.freigabe)
 
 
         self.show()
+        
+    def freigabe(self):
+        self.weiter.setEnabled(True)
+
+        for zeile in range(0,4):
+            for spalte in range (0,5):
+                if self.findChild(QPlainTextEdit, str(zeile) + str(spalte)).toPlainText() == '':
+                    self.weiter.setDisabled(True)
+
 
     def weiter_funkt(self):
         self.arbeits_daten = {}
